@@ -11,10 +11,15 @@ class WorkspacesController < ApplicationController
 
   def create
     @workspace = Workspace.new(workspace_params)
+    if Workspace.exists?(name: workspace_params[:name])
+      render json: { statusMessage: 'Workspace with this name already exists' }, status: :conflict
+      return
+    end
+
     if @workspace.save
-      render json: @workspace, status: :created
+      render json: { workspace: @workspace, statusMessage: 'Workspace created successfully' }, status: :created
     else
-      render json: @workspace.errors, status: :unprocessable_entity
+      render json: { statusMessage: 'Failed to create workspace'}, status: :unprocessable_entity
     end
   end
 
@@ -22,5 +27,10 @@ class WorkspacesController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+  def workspace_params
+    params.require(:workspace).permit(:name, :password)
   end
 end
