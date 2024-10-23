@@ -5,8 +5,13 @@ class WorkspacesController < ApplicationController
   end
 
   def show
-    @workspace = Workspace.find(params[:id])
-    render json: @workspace
+    @workspace = Workspace.find_by(id: params[:id]) || Workspace.find_by(name: params[:id])
+
+    if @workspace
+      render json: @workspace
+    else
+      render json: { statusMessage: 'Workspace not found' }, status: :not_found
+    end
   end
 
   def create
