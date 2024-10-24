@@ -33,9 +33,4 @@ class WorkspacesController < ApplicationController
 
   def destroy
   end
-
-  private
-  def workspace_params
-    params.require(:workspace).permit(:name, :password)
-  end
 end
