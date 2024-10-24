@@ -1,14 +1,14 @@
 class WorkspacesController < ApplicationController
   def index
     @workspaces = Workspace.all
-    render json: @workspaces
+    render json: @workspaces.as_json(except: :password)
   end
 
   def show
-    @workspace = Workspace.find_by(id: params[:id]) || Workspace.find_by(name: params[:id])
+    @workspace = Workspace.find_by(id: params[:id]) || Workspace.find_by(name: params[:name])
 
     if @workspace
-      render json: @workspace
+      render json: @workspace.as_json(except: :password)
     else
       render json: { statusMessage: 'Workspace not found' }, status: :not_found
     end
@@ -22,7 +22,7 @@ class WorkspacesController < ApplicationController
     end
 
     if @workspace.save
-      render json: { workspace: @workspace, statusMessage: 'Workspace created successfully' }, status: :created
+      render json: { workspace: @workspace.as_json(except: :password), statusMessage: 'Workspace created successfully' }, status: :created
     else
       render json: { statusMessage: 'Failed to create workspace'}, status: :unprocessable_entity
     end
