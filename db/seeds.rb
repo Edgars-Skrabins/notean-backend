@@ -7,7 +7,3 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-
-# Workspaces
-Workspace.create!(name: "Origo", password: "123456")
-Workspace.create!(name: "Samsung", password: "123456")
