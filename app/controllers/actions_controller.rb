@@ -9,7 +9,10 @@ class ActionsController < ApplicationController
     end
 
     if workspace_params[:password] == @workspace.password
-      render json: { statusMessage: 'Workspace joined successfully'  }, status: :ok
+      render json: {
+        workspace: @workspace.as_json(except: :password),
+        statusMessage: 'Workspace joined successfully' },
+             status: :ok
     else
       render json: { statusMessage: 'Wrong password' }, status: :unauthorized
     end
