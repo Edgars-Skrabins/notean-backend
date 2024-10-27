@@ -3,4 +3,3 @@ Rails.application.routes.draw do
   resources :workspaces , param: :name
   post "actions/joinworkspace" => "actions#join_workspace"
 end
-s
