@@ -1,6 +1,6 @@
 # Notean backend
 
-This is the backend project for the Notean app. It's a Rails API used together with the [notean frontend](../frontend) — the frontend won't work without this running.
+This is the backend project for the Notean app. It's a Rails API used together with the [notean frontend](https://github.com/Edgars-Skrabins/notean) — the frontend won't work without this running.
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ The API will be available at `http://127.0.0.1:3000`.
 ## Running the full app (backend + frontend)
 
 1. Start this backend first (see above) — it must be running at `http://127.0.0.1:3000`.
-2. In a separate terminal, set up and start the [frontend](../frontend) — see its README.
+2. In a separate terminal, set up and start the [frontend](https://github.com/Edgars-Skrabins/notean) — see its README.
 
 ## Running tests
 
