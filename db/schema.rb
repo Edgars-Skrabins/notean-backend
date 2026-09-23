@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_23_000000) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_23_130001) do
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "team_id", null: false
@@ -20,6 +20,27 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_23_000000) do
     t.index ["team_id"], name: "index_memberships_on_team_id"
     t.index ["user_id", "team_id"], name: "index_memberships_on_user_id_and_team_id", unique: true
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "page_contributors", force: :cascade do |t|
+    t.integer "page_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id", "user_id"], name: "index_page_contributors_on_page_id_and_user_id", unique: true
+    t.index ["page_id"], name: "index_page_contributors_on_page_id"
+    t.index ["user_id"], name: "index_page_contributors_on_user_id"
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.integer "created_by_user_id", null: false
+    t.string "title", null: false
+    t.text "content", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_user_id"], name: "index_pages_on_created_by_user_id"
+    t.index ["team_id"], name: "index_pages_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -44,4 +65,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_23_000000) do
 
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
+  add_foreign_key "page_contributors", "pages"
+  add_foreign_key "page_contributors", "users"
+  add_foreign_key "pages", "teams"
+  add_foreign_key "pages", "users", column: "created_by_user_id"
 end

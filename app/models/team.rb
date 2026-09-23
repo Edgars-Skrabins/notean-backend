@@ -3,6 +3,7 @@ class Team < ApplicationRecord
 
   has_many :memberships
   has_many :users, through: :memberships
+  has_many :pages, dependent: :destroy
 
   validates :name, presence: true
   validates :code, presence: true, uniqueness: true
