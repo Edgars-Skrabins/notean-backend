@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
-  resources :workspaces , param: :name
-  post "actions/joinworkspace" => "actions#join_workspace"
+  resources :teams, only: [:create, :show], param: :code
+  post "actions/jointeam" => "actions#join_team"
 
   post "auth/register" => "users#create"
   post "auth/login" => "sessions#create"

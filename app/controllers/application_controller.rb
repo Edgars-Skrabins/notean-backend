@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   private
-  def workspace_params
-    params.require(:workspace).permit(:name, :password)
+  def team_params
+    params.require(:team).permit(:code, :password)
   end
 
   def user_params
