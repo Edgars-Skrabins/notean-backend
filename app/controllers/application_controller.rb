@@ -4,6 +4,10 @@ class ApplicationController < ActionController::API
     params.require(:team).permit(:code, :password)
   end
 
+  def create_team_params
+    params.require(:team).permit(:name, :password)
+  end
+
   def user_params
     params.require(:user).permit(:email, :username, :password)
   end

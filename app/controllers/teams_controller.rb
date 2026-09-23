@@ -12,12 +12,7 @@ class TeamsController < ApplicationController
   end
 
   def create
-    if Team.exists?(code: team_params[:code])
-      render json: { statusMessage: 'Team with this code already exists' }, status: :conflict
-      return
-    end
-
-    @team = Team.new(team_params)
+    @team = Team.new(create_team_params)
 
     if @team.save
       @team.memberships.create!(user: current_user, role: 'owner')
