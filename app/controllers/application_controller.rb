@@ -12,6 +12,14 @@ class ApplicationController < ActionController::API
     params.require(:user).permit(:email, :username, :password)
   end
 
+  def create_page_params
+    params.fetch(:page, {}).permit(:title)
+  end
+
+  def update_page_params
+    params.require(:page).permit(:title, :content)
+  end
+
   def authenticate_user!
     render json: { statusMessage: 'Unauthorized' }, status: :unauthorized unless current_user
   end
