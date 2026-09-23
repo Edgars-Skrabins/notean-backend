@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_24_000001) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_24_100001) do
+  create_table "memberships", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "team_id", null: false
+    t.string "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_memberships_on_team_id"
+    t.index ["user_id", "team_id"], name: "index_memberships_on_user_id_and_team_id", unique: true
+    t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "code"
+    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -21,11 +40,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_000001) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  create_table "workspaces", force: :cascade do |t|
-    t.string "name"
-    t.string "password"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "password_digest"
-  end
+  add_foreign_key "memberships", "teams"
+  add_foreign_key "memberships", "users"
 end
