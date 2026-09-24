@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resources :teams, only: [:create, :show], param: :code do
+  get "teams/mine" => "teams#mine"
+  get "teams/mine/all" => "teams#mine_all"
+  post "teams/:code/activate" => "teams#activate"
+  get "teams/:code/members" => "teams#members"
+  resources :teams, only: [:create, :show, :update, :destroy], param: :code do
     resources :pages, only: [:index, :create, :show, :update, :destroy]
+    resources :diagrams, only: [:index, :create, :show, :update, :destroy]
   end
 
   post "actions/jointeam" => "actions#join_team"

@@ -10,14 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_23_130001) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_24_150001) do
+  create_table "diagram_contributors", force: :cascade do |t|
+    t.integer "diagram_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["diagram_id", "user_id"], name: "index_diagram_contributors_on_diagram_id_and_user_id", unique: true
+    t.index ["diagram_id"], name: "index_diagram_contributors_on_diagram_id"
+    t.index ["user_id"], name: "index_diagram_contributors_on_user_id"
+  end
+
+  create_table "diagrams", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.integer "created_by_user_id", null: false
+    t.string "title", null: false
+    t.text "content", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_user_id"], name: "index_diagrams_on_created_by_user_id"
+    t.index ["team_id"], name: "index_diagrams_on_team_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "team_id", null: false
     t.string "role", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_active_at", null: false
     t.index ["team_id"], name: "index_memberships_on_team_id"
+    t.index ["team_id"], name: "index_memberships_on_team_id_unique_owner", unique: true, where: "role = 'owner'"
     t.index ["user_id", "team_id"], name: "index_memberships_on_user_id_and_team_id", unique: true
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
@@ -63,6 +86,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_23_130001) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "diagram_contributors", "diagrams"
+  add_foreign_key "diagram_contributors", "users"
+  add_foreign_key "diagrams", "teams"
+  add_foreign_key "diagrams", "users", column: "created_by_user_id"
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
   add_foreign_key "page_contributors", "pages"

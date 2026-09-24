@@ -29,5 +29,10 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
-# Ignore master key for decrypting credentials and more.
-/config/master.key
+# NOTE: master.key is intentionally committed (public repo, dev-only, solo project).
+# Rotate + re-gitignore before any real deploy. See project notes.
+# /config/master.key
+
+# Scratch TODO notes — not meant to be git-tracked
+TODO.md
+TEAM_MANAGEMENT_SPEC.md
