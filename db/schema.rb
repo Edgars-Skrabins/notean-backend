@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_24_150001) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_25_090001) do
   create_table "diagram_contributors", force: :cascade do |t|
     t.integer "diagram_id", null: false
     t.integer "user_id", null: false
@@ -28,8 +28,23 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_150001) do
     t.text "content", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "folder_id"
     t.index ["created_by_user_id"], name: "index_diagrams_on_created_by_user_id"
+    t.index ["folder_id"], name: "index_diagrams_on_folder_id"
     t.index ["team_id"], name: "index_diagrams_on_team_id"
+  end
+
+  create_table "folders", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.string "item_type", null: false
+    t.integer "parent_id"
+    t.integer "created_by_user_id", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_user_id"], name: "index_folders_on_created_by_user_id"
+    t.index ["parent_id"], name: "index_folders_on_parent_id"
+    t.index ["team_id"], name: "index_folders_on_team_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -62,7 +77,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_150001) do
     t.text "content", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "folder_id"
     t.index ["created_by_user_id"], name: "index_pages_on_created_by_user_id"
+    t.index ["folder_id"], name: "index_pages_on_folder_id"
     t.index ["team_id"], name: "index_pages_on_team_id"
   end
 
@@ -88,12 +105,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_24_150001) do
 
   add_foreign_key "diagram_contributors", "diagrams"
   add_foreign_key "diagram_contributors", "users"
+  add_foreign_key "diagrams", "folders"
   add_foreign_key "diagrams", "teams"
   add_foreign_key "diagrams", "users", column: "created_by_user_id"
+  add_foreign_key "folders", "folders", column: "parent_id"
+  add_foreign_key "folders", "teams"
+  add_foreign_key "folders", "users", column: "created_by_user_id"
   add_foreign_key "memberships", "teams"
   add_foreign_key "memberships", "users"
   add_foreign_key "page_contributors", "pages"
   add_foreign_key "page_contributors", "users"
+  add_foreign_key "pages", "folders"
   add_foreign_key "pages", "teams"
   add_foreign_key "pages", "users", column: "created_by_user_id"
 end
