@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post "teams/:code/activate" => "teams#activate"
   get "teams/:code/members" => "teams#members"
   resources :teams, only: [:create, :show, :update, :destroy], param: :code do
+    resources :folders, only: [:index, :create, :update, :destroy]
     resources :pages, only: [:index, :create, :show, :update, :destroy]
     resources :diagrams, only: [:index, :create, :show, :update, :destroy]
   end

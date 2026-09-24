@@ -21,7 +21,7 @@ class ApplicationController < ActionController::API
   end
 
   def update_page_params
-    params.require(:page).permit(:title, :content)
+    params.require(:page).permit(:title, :content, :folder_id)
   end
 
   def create_diagram_params
@@ -29,7 +29,15 @@ class ApplicationController < ActionController::API
   end
 
   def update_diagram_params
-    params.require(:diagram).permit(:title, :content)
+    params.require(:diagram).permit(:title, :content, :folder_id)
+  end
+
+  def create_folder_params
+    params.require(:folder).permit(:title, :item_type, :parent_id)
+  end
+
+  def update_folder_params
+    params.require(:folder).permit(:parent_id)
   end
 
   def authenticate_user!

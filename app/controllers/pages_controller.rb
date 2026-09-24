@@ -29,6 +29,7 @@ class PagesController < ApplicationController
   def update
     @page.title = update_page_params[:title] if update_page_params[:title].present?
     @page.content = Rails::Html::SafeListSanitizer.new.sanitize(update_page_params[:content].to_s) if update_page_params.key?(:content)
+    @page.folder_id = update_page_params[:folder_id] if update_page_params.key?(:folder_id)
 
     if @page.save
       @page.page_contributors.find_or_create_by!(user: current_user)
@@ -66,6 +67,7 @@ class PagesController < ApplicationController
     {
       id: page.id,
       title: page.title,
+      folder_id: page.folder_id,
       creator: user_json(page.creator),
       created_at: page.created_at,
       updated_at: page.updated_at
@@ -79,6 +81,7 @@ class PagesController < ApplicationController
       id: page.id,
       title: page.title,
       content: page.content,
+      folder_id: page.folder_id,
       creator: user_json(page.creator),
       contributors: page.contributors.map { |user| user_json(user) },
       created_at: page.created_at,

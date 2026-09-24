@@ -29,6 +29,7 @@ class DiagramsController < ApplicationController
   def update
     @diagram.title = update_diagram_params[:title] if update_diagram_params[:title].present?
     @diagram.content = update_diagram_params[:content] if update_diagram_params.key?(:content)
+    @diagram.folder_id = update_diagram_params[:folder_id] if update_diagram_params.key?(:folder_id)
 
     if @diagram.save
       @diagram.diagram_contributors.find_or_create_by!(user: current_user)
@@ -66,6 +67,7 @@ class DiagramsController < ApplicationController
     {
       id: diagram.id,
       title: diagram.title,
+      folder_id: diagram.folder_id,
       creator: user_json(diagram.creator),
       created_at: diagram.created_at,
       updated_at: diagram.updated_at
@@ -79,6 +81,7 @@ class DiagramsController < ApplicationController
       id: diagram.id,
       title: diagram.title,
       content: diagram.content,
+      folder_id: diagram.folder_id,
       creator: user_json(diagram.creator),
       contributors: diagram.contributors.map { |user| user_json(user) },
       created_at: diagram.created_at,
