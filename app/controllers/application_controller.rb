@@ -24,6 +24,14 @@ class ApplicationController < ActionController::API
     params.require(:page).permit(:title, :content)
   end
 
+  def create_diagram_params
+    params.fetch(:diagram, {}).permit(:title)
+  end
+
+  def update_diagram_params
+    params.require(:diagram).permit(:title, :content)
+  end
+
   def authenticate_user!
     render json: { statusMessage: 'Unauthorized' }, status: :unauthorized unless current_user
   end
@@ -52,3 +60,4 @@ class ApplicationController < ActionController::API
     @current_user = nil
   end
 end
+
