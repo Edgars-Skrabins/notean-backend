@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
+  get "teams/mine" => "teams#mine"
   resources :teams, only: [:create, :show], param: :code do
     resources :pages, only: [:index, :create, :show, :update, :destroy]
   end

@@ -1,6 +1,11 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
 
+  def mine
+    @team = current_user.memberships.order(created_at: :desc).first&.team
+    render json: { team: @team&.as_json(except: [:password, :password_digest]) }
+  end
+
   def show
     @team = Team.find_by(code: params[:code])
 
