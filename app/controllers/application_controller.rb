@@ -8,6 +8,10 @@ class ApplicationController < ActionController::API
     params.require(:team).permit(:name, :password)
   end
 
+  def update_team_params
+    params.require(:team).permit(:name)
+  end
+
   def user_params
     params.require(:user).permit(:email, :username, :password)
   end
@@ -24,6 +28,19 @@ class ApplicationController < ActionController::API
     render json: { statusMessage: 'Unauthorized' }, status: :unauthorized unless current_user
   end
 
+  def membership_for(team)
+    team.memberships.find_by(user: current_user)
+  end
+
+  def require_team_role!(team, *roles)
+    membership = membership_for(team)
+    unless membership && roles.map(&:to_s).include?(membership.role)
+      render json: { statusMessage: 'Forbidden' }, status: :forbidden
+      return nil
+    end
+    membership
+  end
+
   def current_user
     return @current_user if defined?(@current_user)
 
@@ -35,4 +52,3 @@ class ApplicationController < ActionController::API
     @current_user = nil
   end
 end
-

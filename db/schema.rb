@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_23_130001) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_24_150001) do
   create_table "memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "team_id", null: false
     t.string "role", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "last_active_at", null: false
     t.index ["team_id"], name: "index_memberships_on_team_id"
+    t.index ["team_id"], name: "index_memberships_on_team_id_unique_owner", unique: true, where: "role = 'owner'"
     t.index ["user_id", "team_id"], name: "index_memberships_on_user_id_and_team_id", unique: true
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end
