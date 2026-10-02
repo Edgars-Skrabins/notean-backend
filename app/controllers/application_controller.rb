@@ -37,7 +37,7 @@ class ApplicationController < ActionController::API
   end
 
   def update_folder_params
-    params.require(:folder).permit(:parent_id)
+    params.require(:folder).permit(:title, :parent_id)
   end
 
   def authenticate_user!

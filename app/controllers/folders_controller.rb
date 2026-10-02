@@ -22,7 +22,8 @@ class FoldersController < ApplicationController
   end
 
   def update
-    @folder.parent_id = update_folder_params[:parent_id]
+    @folder.title = update_folder_params[:title] if update_folder_params[:title].present?
+    @folder.parent_id = update_folder_params[:parent_id] if update_folder_params.key?(:parent_id)
 
     if @folder.save
       render json: { folder: folder_json(@folder), statusMessage: 'Folder updated successfully' }
