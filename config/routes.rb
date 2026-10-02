@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     resources :folders, only: [:index, :create, :update, :destroy]
     resources :pages, only: [:index, :create, :show, :update, :destroy]
     resources :diagrams, only: [:index, :create, :show, :update, :destroy]
+    resources :boards, only: [:index, :create, :show, :update, :destroy] do
+      resources :columns, only: [:create, :update, :destroy]
+    end
   end
 
   post "actions/jointeam" => "actions#join_team"

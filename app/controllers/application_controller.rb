@@ -40,6 +40,22 @@ class ApplicationController < ActionController::API
     params.require(:folder).permit(:title, :parent_id)
   end
 
+  def create_board_params
+    params.fetch(:board, {}).permit(:title)
+  end
+
+  def update_board_params
+    params.require(:board).permit(:title)
+  end
+
+  def create_column_params
+    params.fetch(:column, {}).permit(:title)
+  end
+
+  def update_column_params
+    params.require(:column).permit(:title)
+  end
+
   def authenticate_user!
     render json: { statusMessage: 'Unauthorized' }, status: :unauthorized unless current_user
   end
