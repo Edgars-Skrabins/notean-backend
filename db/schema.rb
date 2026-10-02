@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_09_25_090001) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_25_100001) do
+  create_table "boards", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.integer "created_by_user_id", null: false
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_user_id"], name: "index_boards_on_created_by_user_id"
+    t.index ["team_id"], name: "index_boards_on_team_id"
+  end
+
+  create_table "columns", force: :cascade do |t|
+    t.integer "board_id", null: false
+    t.string "title", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["board_id"], name: "index_columns_on_board_id"
+  end
+
   create_table "diagram_contributors", force: :cascade do |t|
     t.integer "diagram_id", null: false
     t.integer "user_id", null: false
@@ -103,6 +122,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_09_25_090001) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "boards", "teams"
+  add_foreign_key "boards", "users", column: "created_by_user_id"
+  add_foreign_key "columns", "boards"
   add_foreign_key "diagram_contributors", "diagrams"
   add_foreign_key "diagram_contributors", "users"
   add_foreign_key "diagrams", "folders"
